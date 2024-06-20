@@ -1,0 +1,22 @@
+<h2>Detalle del Empleado</h2>
+
+<span *ngIf="noExiste">Actividad con el codigo {{idAtividad}} no existe </span>
+
+
+<form [formGroup]="detalleForm" *ngIf="!noExiste">
+
+      <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Descripcion</mat-label>
+        <input matInput formControlName="descriptionnAct" >                
+      </mat-form-field>
+      <br>
+    
+      
+      
+</form>
+
+<br>
+<button *ngIf="!noExiste" mat-flat-button color="primary" (click)="grabarActividad()">Actividad</button>       
+<span *ngIf="!noExiste"> | </span>       
+<button mat-flat-button color="accent" routerLink="/lista">Cancelar</button>
