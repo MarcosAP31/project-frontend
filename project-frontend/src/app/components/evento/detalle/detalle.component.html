@@ -1,0 +1,40 @@
+<h2>Detalle del Empleado</h2>
+
+<span *ngIf="noExiste">Evento con el codigo {{idEvento}} no existe </span>
+
+
+<form [formGroup]="detalleForm" *ngIf="!noExiste">
+
+    <mat-form-field appearance="fill" >
+        <mat-label>Id de Evento</mat-label>
+        <input matInput formControlName="idEve" readonly="true">                
+      </mat-form-field>
+
+      <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Fecha</mat-label>
+        <input matInput formControlName="fechaEve" >
+        <span style="color: red;" *ngIf="detalleForm.get('nameEmp')?.hasError('minlength') && detalleForm.get('nameEmp')?.touched">Debe tener un minimo de 5 caracteres</span>
+      </mat-form-field>
+      <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Cantidad de Pasajeros</mat-label>
+        <input matInput formControlName="cantPasajerosEve" >                
+        <span style="color: red;" *ngIf="detalleForm.get('cityEmp')?.hasError('minlength') && detalleForm.get('cityEmp')?.touched">Debe tener un minimo de 5 caracteres</span>
+      </mat-form-field>
+      <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Costo Total/</mat-label>
+        <input matInput formControlName="costoEve" >                
+        <span style="color: red;" *ngIf="detalleForm.get('salaryEmp')?.hasError('min') && detalleForm.get('salaryEmp')?.touched">Debe ser mayor a 0</span>
+
+      </mat-form-field>
+      
+      
+</form>
+
+<br>
+<button *ngIf="!noExiste" mat-flat-button color="primary" (click)="grabarEmpleado()" [disabled]="detalleForm.invalid">Grabar</button>       
+<span *ngIf="!noExiste"> | </span>       
+<button mat-flat-button color="accent" routerLink="/empleado/lista">Cancelar</button>

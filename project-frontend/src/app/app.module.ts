@@ -13,8 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CabeceraComponent } from './components/cabecera/cabecera.component';
 import { PieComponent } from './components/pie/pie.component';
 import { DetalleComponent } from './components/cliente/detalle/detalle.component';
-import { ListaTourComponent } from './components/tour/lista-tour/lista-tour.component';
-import { NuevoTourComponent } from './components/tour/nuevo-tour/nuevo-tour.component';
+
 import { NuevoDestinoComponent } from './components/destino/nuevo-destino/nuevo-destino.component';
 import { ListaDestinoComponent } from './components/destino/lista-destino/lista-destino.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,8 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     CabeceraComponent,
     PieComponent,
     DetalleComponent,
-    ListaTourComponent,
-    NuevoTourComponent,
     NuevoDestinoComponent,
     ListaDestinoComponent,
    
