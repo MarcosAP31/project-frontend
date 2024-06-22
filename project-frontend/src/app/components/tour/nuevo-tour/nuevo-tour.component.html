@@ -1,0 +1,48 @@
+<h3>Crear Tour</h3>
+<br>
+<br>
+<form [formGroup]="newForm">
+    <mat-form-field>
+        <mat-label>Id</mat-label>
+        <input matInput formControlName="id" readonly>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Destino</mat-label>
+        <input matInput formControlName="destino_id">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Descripcion</mat-label>
+        <input matInput formControlName="descripcion">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Fecha Inicio</mat-label>
+        <input matInput formControlName="fecha_inicio">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Fecha Final</mat-label>
+        <input matInput formControlName="fecha_final">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field>
+        <mat-label>Costo</mat-label>
+        <input matInput formControlName="costo">
+    </mat-form-field>
+</form>
+
+<button mat-flat-button routerLink="/list">Ir a lista</button>
+<button mat-flat-button (click)="saveTour()">Grabar nuevo</button>
