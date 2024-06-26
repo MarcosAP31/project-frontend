@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ListaComponent } from './components/cliente/lista/lista.component';
 import { InicioComponent } from './components/inicio/inicio.component';
-
+import { ActividadListaComponent } from './components/actividades/lista/lista.component';
+import { ActividadDetalleComponent } from './components/actividades/detalle/detalle.component';
 import { MatCardModule } from '@angular/material/card';
 import { MaterialModule } from './modules/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,6 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DetalleComponent,
     NuevoDestinoComponent,
     ListaDestinoComponent,
+    ActividadDetalleComponent,
+    ActividadListaComponent
    
   ],
   imports: [

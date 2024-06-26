@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmpleadoService } from '../../../services/empleado.service';
+import { ActividadService } from '../../../services/actividad.service';
 import { error } from 'console';
-import { Empleado } from '../../../models/empleado';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Actividad } from '../../../models/actividad';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServerError } from '../../../models/server-error';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,72 +13,66 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './detalle.component.html',
   styleUrl: './detalle.component.css'
 })
-export class DetalleComponent {
-  idEmpleado:number=0;
+export class ActividadDetalleComponent {
+  idActividad:number=0;
   detalleForm!:FormGroup;
   noExiste:boolean=false;
 
-  constructor (private ruta:ActivatedRoute, private empleadoService:EmpleadoService,
+  constructor (private ruta:ActivatedRoute, private actividadService:ActividadService,
                 private formBuilder:FormBuilder, private enrutador:Router, 
                 private _snackBar: MatSnackBar) {}
 
   ngOnInit(){
-    this.cargaEmpleado();
+    this.cargaActividad();
   }
 
-  grabarEmpleado(){
-    const empleado:Empleado={
-      id: parseInt(this.detalleForm.get("idEmp")!.value),
-      name: this.detalleForm.get("nameEmp")!.value,
-      city: this.detalleForm.get("cityEmp")!.value,
-      salary: parseFloat(this.detalleForm.get("salaryEmp")!.value),
+  grabarActividad(){
+    const actividad:Actividad={
+      id: parseInt(this.detalleForm.get("idAct")!.value),
+      description: this.detalleForm.get("descriptionAct")!.value,
     };
 
-    if (this.idEmpleado!=0) {
+    if (this.idActividad!=0) {
 
-      this.empleadoService.actualizaEmpleado(empleado).subscribe({
+      this.actividadService.actualizaActividad(actividad).subscribe({
         next:()=>{
-          this._snackBar.open("El empleado se actualizó","Ok",{duration: 1000 });
-          this.enrutador.navigate(["/lista"]);
+          this._snackBar.open("La actividad se actualizó","Ok",{duration: 1000 });
+          this.enrutador.navigate(["/actividad/lista"]);
         },
         error:(err)=>{
           console.log(err);
         }
       });
     } else {
-      this.empleadoService.registraEmpleado(empleado).subscribe({
+      this.actividadService.registraActividad(actividad).subscribe({
         next:()=>{
-          this._snackBar.open("El empleado se registró","Ok",{duration: 1000 });
-          this.enrutador.navigate(["/lista"]);
+          this._snackBar.open("La actividad se registró","Ok",{duration: 1000 });
+          this.enrutador.navigate(["/actividad/lista"]);
         },
-        error:(err)=>{
-          console.log(err);
+        error:(err)=>{          
+          this._snackBar.open("No se registró la actividad: "+err.error.message,"Ok",{duration: 2000 });          
         }
-
       });
     }
   }
 
-  cargaEmpleado() {
+  cargaActividad() {
 
     this.detalleForm = this.formBuilder.group({
-      idEmp:[""],
-      nameEmp:[""],
-      cityEmp:[""],
-      salaryEmp:[""]
+      idAct:[""],
+      descriptionAct:["",[Validators.required, Validators.maxLength(100), Validators.minLength(5)]],
     });
 
 
-    this.idEmpleado = this.ruta.snapshot.params["codigo"];
+    this.idActividad = this.ruta.snapshot.params["codigo"];
    
-    if(this.idEmpleado!=0 && this.idEmpleado!=undefined) {
-      this.empleadoService.detalleEmpleado(this.idEmpleado).subscribe({
-        next: (data:Empleado)=> {
+    if(this.idActividad!=0 && this.idActividad!=undefined) {
+      this.actividadService.detalleActividad(this.idActividad).subscribe({
+        next: (data:Actividad)=> {
           
-          this.detalleForm.get("idEmp")?.setValue(data.id);
-          this.detalleForm.get("nameEmp")?.setValue(data.name);
-          this.detalleForm.get("cityEmp")?.setValue(data.city);
-          this.detalleForm.get("salaryEmp")?.setValue(data.salary);
+          this.detalleForm.get("idAct")?.setValue(data.id);
+          this.detalleForm.get("descriptionAct")?.setValue(data.description);
+
           
         },
         error: (err:ServerError)=> {
@@ -89,8 +83,8 @@ export class DetalleComponent {
         }
       });
     } else {
-      this.idEmpleado=0;
-      this.detalleForm.get("idEmp")?.setValue(this.idEmpleado);
+      this.idActividad=0;
+      this.detalleForm.get("idAct")?.setValue(this.idActividad);
     }
 
 

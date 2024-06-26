@@ -1,1 +1,30 @@
-<p>lista works!</p>
+<h2>Lista de Actividads</h2>
+
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Escriba algún filtro" #input>
+  </mat-form-field>
+<span> | </span>
+  <button mat-flat-button color="accent" routerLink="/actividad/agregar">Agregar Actividad</button>
+
+
+<table mat-table [dataSource]="dsLista" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let element"  > {{element.id}} </td>
+    </ng-container>
+  
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+  
+
+    
+  
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

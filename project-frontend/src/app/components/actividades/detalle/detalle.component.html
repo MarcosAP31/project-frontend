@@ -1,22 +1,28 @@
 <h2>Detalle del Empleado</h2>
 
-<span *ngIf="noExiste">Actividad con el codigo {{idAtividad}} no existe </span>
+<span *ngIf="noExiste">Actividad con el codigo {{idActividad}} no existe </span>
 
 
 <form [formGroup]="detalleForm" *ngIf="!noExiste">
 
-      <br>
-    <mat-form-field appearance="fill">
-        <mat-label>Descripcion</mat-label>
-        <input matInput formControlName="descriptionnAct" >                
-      </mat-form-field>
-      <br>
-    
-      
-      
+  <mat-form-field appearance="fill">
+    <mat-label>Id de Empleado</mat-label>
+    <input matInput formControlName="idAct" readonly="true">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Descripcion</mat-label>
+    <input matInput formControlName="descriptionAct">
+    <span style="color: red;" *ngIf="detalleForm.get('descriptionAct')?.hasError('minlength') && detalleForm.get('descriptionAct')?.touched">Debe tener un minimo de 5 caracteres</span>
+  </mat-form-field>
+  <br>
+
+
+
 </form>
 
 <br>
-<button *ngIf="!noExiste" mat-flat-button color="primary" (click)="grabarActividad()">Actividad</button>       
-<span *ngIf="!noExiste"> | </span>       
+<button *ngIf="!noExiste" mat-flat-button color="primary" (click)="grabarActividad()"
+  [disabled]="detalleForm.invalid">Grabar</button>
+<span *ngIf="!noExiste"> | </span>
 <button mat-flat-button color="accent" routerLink="/lista">Cancelar</button>
