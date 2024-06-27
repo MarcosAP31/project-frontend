@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmpleadoService } from '../../../services/empleado.service';
+import { EventoProgramadoService } from '../../../services/eventoprogramado.service';
 import { error } from 'console';
-import { Empleado } from '../../../models/empleado';
+import { EventoProgramado } from '../../../models/eventoprogramado';
+import { Tour } from '../../../models/tour';
+import { Destino } from '../../../models/destino';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServerError } from '../../../models/server-error';
@@ -14,51 +16,56 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './detalle.component.css'
 })
 export class DetalleComponent {
-  idEmpleado:number=0;
+  idEventoProgramado:number=0;
   detalleForm!:FormGroup;
   noExiste:boolean=false;
+  listaTours:Tour[]=[];
 
-  constructor (private ruta:ActivatedRoute, private empleadoService:EmpleadoService,
+
+  constructor (private ruta:ActivatedRoute, private eventoProgramadoService:EventoProgramadoService,
                 private formBuilder:FormBuilder, private enrutador:Router, 
                 private _snackBar: MatSnackBar) {}
 
   ngOnInit(){
-    this.cargaEmpleado();
+    this.cargaEventoProgramado();
   }
 
-  grabarEmpleado(){
-    const empleado:Empleado={
-      id: parseInt(this.detalleForm.get("idEmp")!.value),
-      name: this.detalleForm.get("nameEmp")!.value,
-      city: this.detalleForm.get("cityEmp")!.value,
-      salary: parseFloat(this.detalleForm.get("salaryEmp")!.value),
+  grabarEventoProgramado(){
+  
+    const eventoProgramado:EventoProgramado={
+      
+      id: parseInt(this.detalleForm.get("idEve")!.value),
+      tour: {id:this.detalleForm.get("tour")!.value, nombre:"", descripcion:"", fecha_inicio:new Date(), fecha_final:new Date(), costo:0},
+      fecha: this.detalleForm.get("nameEmp")!.value,
+      cant_pasajeros: this.detalleForm.get("cityEmp")!.value,
+      costo_total: parseFloat(this.detalleForm.get("salaryEmp")!.value),
     };
 
-    if (this.idEmpleado!=0) {
+    if (this.idEventoProgramado!=0) {
 
-      this.empleadoService.actualizaEmpleado(empleado).subscribe({
+      this.eventoProgramadoService.actualizaEventoProgramado(eventoProgramado).subscribe({
         next:()=>{
-          this._snackBar.open("El empleado se actualizó","Ok",{duration: 1000 });
-          this.enrutador.navigate(["/empleado/lista"]);
+          this._snackBar.open("El eventoProgramado se actualizó","Ok",{duration: 1000 });
+          this.enrutador.navigate(["/eventoProgramado/lista"]);
         },
         error:(err)=>{
           console.log(err);
         }
       });
     } else {
-      this.empleadoService.registraEmpleado(empleado).subscribe({
+      this.eventoProgramadoService.registraEventoProgramado(eventoProgramado).subscribe({
         next:()=>{
-          this._snackBar.open("El empleado se registró","Ok",{duration: 1000 });
-          this.enrutador.navigate(["/empleado/lista"]);
+          this._snackBar.open("El eventoProgramado se registró","Ok",{duration: 1000 });
+          this.enrutador.navigate(["/eventoProgramado/lista"]);
         },
         error:(err)=>{          
-          this._snackBar.open("No se registró al empleado: "+err.error.message,"Ok",{duration: 2000 });          
+          this._snackBar.open("No se registró al eventoProgramado: "+err.error.message,"Ok",{duration: 2000 });          
         }
       });
     }
   }
 
-  cargaEmpleado() {
+  cargaEventoProgramado() {
 
     this.detalleForm = this.formBuilder.group({
       idEmp:[""],
@@ -68,11 +75,11 @@ export class DetalleComponent {
     });
 
 
-    this.idEmpleado = this.ruta.snapshot.params["codigo"];
+    this.idEventoProgramado = this.ruta.snapshot.params["codigo"];
    
-    if(this.idEmpleado!=0 && this.idEmpleado!=undefined) {
-      this.empleadoService.detalleEmpleado(this.idEmpleado).subscribe({
-        next: (data:Empleado)=> {
+    if(this.idEventoProgramado!=0 && this.idEventoProgramado!=undefined) {
+      this.eventoProgramadoService.detalleEventoProgramado(this.idEventoProgramado).subscribe({
+        next: (data:EventoProgramado)=> {
           
           this.detalleForm.get("idEmp")?.setValue(data.id);
           this.detalleForm.get("nameEmp")?.setValue(data.name);
@@ -88,8 +95,8 @@ export class DetalleComponent {
         }
       });
     } else {
-      this.idEmpleado=0;
-      this.detalleForm.get("idEmp")?.setValue(this.idEmpleado);
+      this.idEventoProgramado=0;
+      this.detalleForm.get("idEmp")?.setValue(this.idEventoProgramado);
     }
 
 

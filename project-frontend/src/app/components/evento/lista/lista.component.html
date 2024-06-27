@@ -1,1 +1,58 @@
-<p>lista works!</p>
+<h2>Lista de Eventos Programados</h2>
+
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Escriba algún filtro" #input>
+</mat-form-field>
+<span> | </span>
+<button mat-flat-button color="accent" routerLink="/eventoprogramado/agregar">Agregar Evento Programado</button>
+
+
+<table mat-table [dataSource]="dsLista" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="project">
+        <th mat-header-cell *matHeaderCellDef> Nombre de Tour </th>
+        <td mat-cell *matCellDef="let element"> {{element.tour.name}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="hoursWorked">
+        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hoursWorked">
+        <th mat-header-cell *matHeaderCellDef> Cantidad de pasajeros </th>
+        <td mat-cell *matCellDef="let element"> {{element.cant_pasajeros}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hoursWorked">
+        <th mat-header-cell *matHeaderCellDef> Costo Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.costo_total}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Opciones </th>
+        <td mat-cell *matCellDef="let element">
+            <a routerLink="/eventoprogramado/detalle/{{element.id}}">
+                <mat-icon>edit</mat-icon>
+
+            </a>
+
+            <a (click)="eliminarEventoProgramado(element)" style="cursor: pointer;">
+                <mat-icon>delete</mat-icon>
+            </a>
+        </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

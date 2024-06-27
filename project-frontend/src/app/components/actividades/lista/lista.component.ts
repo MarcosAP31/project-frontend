@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ActividadListaComponent {
   dsLista=new MatTableDataSource<Actividad>();
   listaResultante:any;
-  displayedColumns: string[]=["id","description"];
+  displayedColumns: string[]=["id","description","acciones"];
   @ViewChild("paginator") paginator!: MatPaginator;
 
 
