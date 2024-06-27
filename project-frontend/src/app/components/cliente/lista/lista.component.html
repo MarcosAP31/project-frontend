@@ -1,1 +1,38 @@
-<p>lista works!</p>
+<h2>Detalle del Cliente</h2>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="detalleForm">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Id de Cliente</mat-label>
+        <input matInput formControlName="id" readonly>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre">
+        <mat-error *ngIf="detalleForm.get('nombre').hasError('required')">El nombre es requerido.</mat-error>
+      </mat-form-field>
+
+      <br>
+
+      <div>
+        <mat-label>Foto</mat-label>
+        <br>
+        <img [src]="cliente.photo" width="150" height="150" alt="Foto del cliente">
+        <br>
+        <span>Elegir una foto...</span>
+        <input type="file" accept="image/png, image/jpeg" (change)="seleccionarFoto($event)">
+      </div>
+
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-flat-button color="primary" (click)="guardarCliente()" [disabled]="detalleForm.invalid">Grabar</button>
+    <button mat-flat-button color="accent" routerLink="/cliente/lista">Cancelar</button>
+  </mat-card-actions>
+</mat-card>
