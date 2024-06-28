@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../services/cliente.service';
+import { UsuarioService } from '../../../services/usuario.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Cliente } from '../../../models/cliente';
+import { Usuario } from '../../../models/usuario';
 import { ServerError } from '../../../models/server-error';
 import { error } from 'console';
 
@@ -18,10 +20,11 @@ export class ClienteDetalleComponent {
   detalleForm!: FormGroup;
   noExiste: boolean = false;
   fotoCliente: any = null;
-
+  listaUsuarios:Usuario[]=[];
   constructor(
     private ruta: ActivatedRoute,
     private clienteService: ClienteService,
+    private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private enrutador: Router,
     private _snackBar: MatSnackBar
@@ -29,17 +32,27 @@ export class ClienteDetalleComponent {
 
   ngOnInit() {
     this.cargarCliente();
+    this.cargaUsuarios();
   }
 
-  seleccionarFoto(event: any) {
+  seleccionaFoto(event: any) {
     this.fotoCliente = event.target.files[0];
     console.log(this.fotoCliente);
   }
-
-  guardarCliente() {
+  cargaUsuarios(){
+    this.usuarioService.listaUsuarios().subscribe({
+      next:(data:Usuario[])=>{
+        this.listaUsuarios=data;
+      }
+    })
+  }
+  grabarCliente() {
     const cliente: Cliente = {
       id: parseInt(this.detalleForm.get("idCli")!.value),
-      nombre: this.detalleForm.get("nombreCli")!.value,
+      nombres: this.detalleForm.get("nombreCli")!.value,
+      telefono: this.detalleForm.get("telefonoCli")!.value,
+      correo: this.detalleForm.get("correoCli")!.value,
+      user: {id:this.detalleForm.get("usuario")!.value ,userName:"", password:"", type:""},
       photo: null // Aquí se asignaría la foto si fuera necesario
     };
 
@@ -113,7 +126,7 @@ export class ClienteDetalleComponent {
       this.clienteService.detalleCliente(this.idCliente).subscribe({
         next: (data: Cliente) => {
           this.detalleForm.get("idCli")?.setValue(data.id);
-          this.detalleForm.get("nombreCli")?.setValue(data.nombre);
+          this.detalleForm.get("nombreCli")?.setValue(data.nombres);
           // Setea más campos según la estructura de tu formulario
         },
         error: (err: ServerError) => {

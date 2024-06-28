@@ -16,7 +16,10 @@ const routes: Routes = [
   { path:"actividad/agregar", component:ActividadDetalleComponent},
   { path:"actividad/lista", component:ActividadListaComponent},
   { path:"nuevodestino", component:NuevoDestinoComponent},
-  { path:"listaDestino", component:ListaDestinoComponent}
+  { path:"listaDestino", component:ListaDestinoComponent},
+  { path:"cliente/detalle/:codigo", component:ClienteDetalleComponent},
+  { path:"cliente/agregar", component:ClienteDetalleComponent},
+  { path:"cliente/lista", component:ClienteListaComponent}
 ];
 
 @NgModule({

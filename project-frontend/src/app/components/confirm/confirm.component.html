@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Eliminar {{data.tipo}}</h2>
+<mat-dialog-content>
+  ¿Desea eliminar el item seleccionado?<br>
+  <b> {{data.item}}</b>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="cancelar()">No</button>
+  <button mat-button (click)="confirmar()" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

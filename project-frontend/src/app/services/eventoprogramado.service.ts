@@ -8,7 +8,7 @@ import { EventoProgramado } from '../models/eventoprogramado';
 export class EventoProgramadoService {
 
   ruta_servidor:string = "http://localhost:8080/api";
-  recurso:string ="evento";
+  recurso:string ="eventos";
 
   constructor(private clienteHTTP:HttpClient) { }
 

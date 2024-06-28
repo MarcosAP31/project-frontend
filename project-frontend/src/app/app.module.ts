@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MaterialModule } from './modules/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CabeceraComponent } from './components/cabecera/cabecera.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 import { PieComponent } from './components/pie/pie.component';
 import { ClienteDetalleComponent } from './components/cliente/detalle/detalle.component';
 
@@ -24,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ClienteListaComponent,
     InicioComponent,
     CabeceraComponent,
+    ConfirmComponent,
     PieComponent,
     ClienteDetalleComponent,
     NuevoDestinoComponent,

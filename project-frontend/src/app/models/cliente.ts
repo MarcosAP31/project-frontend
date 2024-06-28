@@ -1,5 +1,9 @@
+import { Usuario } from "./usuario";
 export interface Cliente{
     id:number;
-    nombre: string;
+    nombres: string;
+    telefono: string;
+    correo: string;
+    user:Usuario;
     photo:any;
 }

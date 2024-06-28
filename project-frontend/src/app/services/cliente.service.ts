@@ -6,7 +6,7 @@ import { Cliente } from '../models/cliente';
 })
 export class ClienteService {
   ruta_servidor:string = "http://localhost:8080/api";
-  recurso:string ="evento";
+  recurso:string ="clientes";
 
   constructor(private clienteHTTP:HttpClient) { }
   listaClientes(){

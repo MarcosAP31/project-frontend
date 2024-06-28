@@ -1,39 +1,67 @@
-<h2>Detalle del Cliente</h2>
+<h2>Lista de Clientes</h2>
 
-<mat-card>
-  <mat-card-content>
-    <form [formGroup]="detalleForm">
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Escriba algún filtro" #input>
+  </mat-form-field>
+<span> | </span>
+  <button mat-flat-button color="accent" routerLink="/cliente/agregar">Agregar Cliente</button>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Id de Cliente</mat-label>
-        <input matInput formControlName="id" readonly>
-      </mat-form-field>
 
-      <br>
+<table mat-table [dataSource]="dsLista" class="mat-elevation-z8">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre">
-        <mat-error *ngIf="detalleForm.get('nombre').hasError('required')">El nombre es requerido.</mat-error>
-      </mat-form-field>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let element"  > {{element.id}} </td>
+    </ng-container>
+  
 
-      <br>
+    <ng-container matColumnDef="nombres">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let element"> {{element.nombres}} </td>
+    </ng-container>
+  
 
-      
-      <div>
-        <mat-label>Foto</mat-label>
-        <br>
-        <img [src]="element.photo" width="150" height="150" alt="Foto del cliente">
-        <br>
-        <span>Elegir una foto...</span>
-        <input type="file" accept="image/png, image/jpeg" (change)="seleccionaFoto($event)">
-      </div>
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+      <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+    </ng-container>
+  
 
-    </form>
-  </mat-card-content>
+    <ng-container matColumnDef="correo">
+      <th mat-header-cell *matHeaderCellDef> Correo </th>
+      <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
+    </ng-container>
+  
 
-  <mat-card-actions>
-    <button mat-flat-button color="primary" (click)="guardarCliente()" [disabled]="detalleForm.invalid">Grabar</button>
-    <button mat-flat-button color="accent" routerLink="/cliente/lista">Cancelar</button>
-  </mat-card-actions>
-</mat-card>
+    <ng-container matColumnDef="usuario">
+        <th mat-header-cell *matHeaderCellDef> Usuario </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.userName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef> Foto </th>
+        <td mat-cell *matCellDef="let element"> 
+         <img [src]="element.photo" width="50" height="50">        
+        </td>
+      </ng-container>
+  
+
+    <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Opciones </th>
+        <td mat-cell *matCellDef="let element"> 
+            <a routerLink="/cliente/detalle/{{element.id}}">
+            <mat-icon>edit</mat-icon>
+                
+            </a>
+             
+            <a (click)="eliminarCliente(element)" style="cursor: pointer;">
+                <mat-icon>delete</mat-icon>
+                </a>            
+        </td>
+    </ng-container>
+  
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

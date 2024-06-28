@@ -8,7 +8,7 @@ import { Destino } from '../models/destino';
 export class DestinoService {
 
   servidor: string="http://localhost:8080/api";
-  recurso: string="destino";
+  recurso: string="destinos";
 
   constructor(private httpCliente: HttpClient) { }
   listDestino(){
