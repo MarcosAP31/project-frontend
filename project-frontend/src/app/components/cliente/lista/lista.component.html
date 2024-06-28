@@ -22,10 +22,10 @@
       <div>
         <mat-label>Foto</mat-label>
         <br>
-        <img [src]="cliente.photo" width="150" height="150" alt="Foto del cliente">
+        <img [src]="element.photo" width="150" height="150" alt="Foto del cliente">
         <br>
         <span>Elegir una foto...</span>
-        <input type="file" accept="image/png, image/jpeg" (change)="seleccionarFoto($event)">
+        <input type="file" accept="image/png, image/jpeg" (change)="seleccionaFoto($event)">
       </div>
 
     </form>

@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServerError } from '../../../models/server-error';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToursService } from '../../../services/tour.service';
 
 @Component({
   selector: 'app-detalle',
@@ -23,19 +24,32 @@ export class DetalleComponent {
 
 
   constructor (private ruta:ActivatedRoute, private eventoProgramadoService:EventoProgramadoService,
+                private tourService:ToursService,
                 private formBuilder:FormBuilder, private enrutador:Router, 
                 private _snackBar: MatSnackBar) {}
 
   ngOnInit(){
     this.cargaEventoProgramado();
+    this.cargaTours();
   }
 
+  cargaTours(){
+    this.tourService.listTour().subscribe({
+      next:(data:Tour[])=>{
+        this.listaTours=data;
+      }
+    })
+  }
   grabarEventoProgramado(){
   
     const eventoProgramado:EventoProgramado={
       
       id: parseInt(this.detalleForm.get("idEve")!.value),
-      tour: {id:this.detalleForm.get("tour")!.value, nombre:"", descripcion:"", fecha_inicio:new Date(), fecha_final:new Date(), costo:0},
+      tour: {id:this.detalleForm.get("tour")!.value, destino: {
+        id: 1, 
+        nombre: "Nombre del destino",
+        descripcion: "Descripción del destino" 
+      },nombre:"", descripcion:"", fecha_inicio:new Date(), fecha_final:new Date(), costo:0},
       fecha: this.detalleForm.get("nameEmp")!.value,
       cant_pasajeros: this.detalleForm.get("cityEmp")!.value,
       costo_total: parseFloat(this.detalleForm.get("salaryEmp")!.value),
@@ -68,10 +82,11 @@ export class DetalleComponent {
   cargaEventoProgramado() {
 
     this.detalleForm = this.formBuilder.group({
-      idEmp:[""],
-      nameEmp:["",[Validators.required, Validators.maxLength(100), Validators.minLength(5)]],
-      cityEmp:["",[Validators.required, Validators.maxLength(100), Validators.minLength(1)]],
-      salaryEmp:["",[Validators.required, Validators.min(0.1)]]
+      idEve:[""],
+      tour:[""],
+      fechaEve:[""],
+      cantPasajerosEve:[""],
+      costoEve:[""]
     });
 
 
@@ -81,10 +96,11 @@ export class DetalleComponent {
       this.eventoProgramadoService.detalleEventoProgramado(this.idEventoProgramado).subscribe({
         next: (data:EventoProgramado)=> {
           
-          this.detalleForm.get("idEmp")?.setValue(data.id);
-          this.detalleForm.get("nameEmp")?.setValue(data.name);
-          this.detalleForm.get("cityEmp")?.setValue(data.city);
-          this.detalleForm.get("salaryEmp")?.setValue(data.salary);
+          this.detalleForm.get("idEve")?.setValue(data.id);
+          this.detalleForm.get("tour")?.setValue(data.tour.id);
+          this.detalleForm.get("fechaEve")?.setValue(data.fecha);
+          this.detalleForm.get("cantPasajerosEve")?.setValue(data.cant_pasajeros);
+          this.detalleForm.get("costoEve")?.setValue(data.costo_total);
           
         },
         error: (err:ServerError)=> {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../services/cliente.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Clientes } from '../../../models/clientes';
+import { Cliente } from '../../../models/cliente';
 import { ServerError } from '../../../models/server-error';
 import { error } from 'console';
 
@@ -13,7 +13,7 @@ import { error } from 'console';
   templateUrl: './detalle.component.html',
   styleUrl: './detalle.component.css'
 })
-export class DetalleClienteComponent {
+export class ClienteDetalleComponent {
   idCliente: number = 0;
   detalleForm!: FormGroup;
   noExiste: boolean = false;
@@ -37,20 +37,20 @@ export class DetalleClienteComponent {
   }
 
   guardarCliente() {
-    const cliente: Clientes = {
+    const cliente: Cliente = {
       id: parseInt(this.detalleForm.get("idCli")!.value),
       nombre: this.detalleForm.get("nombreCli")!.value,
       photo: null // Aquí se asignaría la foto si fuera necesario
     };
 
     if (this.idCliente != 0) {
-      this.clienteService.actualizarCliente(cliente).subscribe({
-        next: (data: Clientes) => {
+      this.clienteService.actualizaCliente(cliente).subscribe({
+        next: (data: Cliente) => {
           if (this.fotoCliente) {
             const fotoFormData = new FormData();
             fotoFormData.append("photo", this.fotoCliente, this.fotoCliente.name);
 
-            this.clienteService.actualizarFoto(data.id, fotoFormData).subscribe({
+            this.clienteService.actualizaFoto(data.id, fotoFormData).subscribe({
               next: () => {
                 this._snackBar.open("Se actualizó la foto del cliente", "Ok", { duration: 1000 });
                 this.enrutador.navigate(["/cliente/lista"]);
@@ -71,13 +71,13 @@ export class DetalleClienteComponent {
         }
       });
     } else {
-      this.clienteService.registrarCliente(cliente).subscribe({
-        next: (data: Clientes) => {
+      this.clienteService.registraCliente(cliente).subscribe({
+        next: (data: Cliente) => {
           if (this.fotoCliente) {
             const fotoFormData = new FormData();
             fotoFormData.append("photo", this.fotoCliente, this.fotoCliente.name);
 
-            this.clienteService.actualizarFoto(data.id, fotoFormData).subscribe({
+            this.clienteService.actualizaFoto(data.id, fotoFormData).subscribe({
               next: () => {
                 this._snackBar.open("Se agregó la foto del cliente", "Ok", { duration: 1000 });
                 this.enrutador.navigate(["/cliente/lista"]);
@@ -111,7 +111,7 @@ export class DetalleClienteComponent {
 
     if (this.idCliente != 0 && this.idCliente != undefined) {
       this.clienteService.detalleCliente(this.idCliente).subscribe({
-        next: (data: Clientes) => {
+        next: (data: Cliente) => {
           this.detalleForm.get("idCli")?.setValue(data.id);
           this.detalleForm.get("nombreCli")?.setValue(data.nombre);
           // Setea más campos según la estructura de tu formulario

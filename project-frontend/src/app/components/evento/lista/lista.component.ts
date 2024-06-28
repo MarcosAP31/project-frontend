@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EmpleadoProyecto } from '../../../models/employee-project';
-import { EmpleadoProyectoService } from '../../../services/empleado-proyecto.service';
-import { EmpleadoService } from '../../../services/empleado.service';
+import { EventoProgramado } from '../../../models/eventoprogramado';
+import { EventoProgramadoService } from '../../../services/eventoprogramado.service';
+import { ToursService } from '../../../services/tour.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,15 +13,15 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
   templateUrl: './empleado-proyecto-lista.component.html',
   styleUrl: './empleado-proyecto-lista.component.css'
 })
-export class EmpleadoProyectoListaComponent {
-  dsLista=new MatTableDataSource<EmpleadoProyecto>();
+export class ListaComponent {
+  dsLista=new MatTableDataSource<EventoProgramado>();
   listaResultante:any;
-  displayedColumns: string[]=["id","project","employee","hoursWorked","homeOffice","acciones"];
+  displayedColumns: string[]=["id","tour","fecha","cantidadPasajeros","costoTotal","acciones"];
 
 
 
-  constructor(private empleadoService:EmpleadoService, private _snackBar: MatSnackBar, 
-    private dialogos: MatDialog, private empleadoProyectoService: EmpleadoProyectoService){}
+  constructor(private tourService:ToursService, private _snackBar: MatSnackBar, 
+    private dialogos: MatDialog, private eventoProgramadoService: EventoProgramadoService){}
 
   ngOnInit(){
     this.cargaLista();
@@ -34,14 +34,14 @@ export class EmpleadoProyectoListaComponent {
   }
 
 
-  eliminarEmpleadoProyecto(empleadoProyecto:EmpleadoProyecto){
-    let id=empleadoProyecto.id;
-    console.log(empleadoProyecto);
-    let confirmarEliminacion = this.dialogos.open(ConfirmComponent,{data:{tipo:"Asignación de Empleado",item:empleadoProyecto.project.name + " - " + empleadoProyecto.employee.name}});
+  eliminarEventoProgramado(eventoProgramado:EventoProgramado){
+    let id=eventoProgramado.id;
+    console.log(eventoProgramado);
+    let confirmarEliminacion = this.dialogos.open(ConfirmComponent,{data:{tipo:"Asignación de Empleado",item:eventoProgramado.tour.nombre + " - " + eventoProgramado.tour.nombre}});
     confirmarEliminacion.afterClosed().subscribe(
       result=>{
         if (result) {
-          this.empleadoProyectoService.eliminaEmpleadoProyecto(id).subscribe({
+          this.eventoProgramadoService.eliminaEventoProgramado(id).subscribe({
             next:()=>{
               this.cargaLista();
             },
@@ -59,8 +59,8 @@ export class EmpleadoProyectoListaComponent {
 
 
   cargaLista(){
-      this.empleadoProyectoService.listaEmpleadoProyecto().subscribe({
-          next: (data:EmpleadoProyecto[])=>{
+      this.eventoProgramadoService.listaEventoProgramados().subscribe({
+          next: (data:EventoProgramado[])=>{
               this.dsLista = new MatTableDataSource(data);
               //this.dsLista.paginator = this.paginator;
           },
