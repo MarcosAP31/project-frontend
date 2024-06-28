@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmpleadoProyecto } from '../../../models/employee-project';
-import { EmpleadoProyectoService } from '../../../services/empleado-proyecto.service';
+import { EmpleadoProyectoService } from '../../../services/evento.service';
 import { EmpleadoService } from '../../../services/empleado.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
